@@ -127,6 +127,7 @@
       z-index: 0;
       animation: glowBreathe 6s ease-in-out infinite alternate;
     }
+    .cover-inner { width: min(100%, 760px); }
     @keyframes glowBreathe {
       from { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
       to { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
@@ -145,6 +146,7 @@
       margin: 28px 0 22px;
       animation: fadeInUp 1.3s cubic-bezier(.16,1,.3,1) .28s both;
       text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+      text-align: center;
     }
     .cover-sub {
       font: italic 18px 'Playfair Display', serif;
@@ -152,6 +154,10 @@
       animation: fadeInUp 1.3s cubic-bezier(.16,1,.3,1) .42s both;
     }
     .open-link {
+      display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
       margin-top: 64px;
       background: none;
       border: 0;
@@ -222,6 +228,138 @@
       opacity: 1;
       pointer-events: auto;
       transform: none;
+    }
+
+    .question-screen {
+      z-index: 15;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      overflow-y: auto;
+      background:
+        radial-gradient(ellipse at 80% 18%, rgba(255,178,130,.48), transparent 42%),
+        radial-gradient(ellipse at 20% 80%, rgba(255,255,255,.86), transparent 46%);
+    }
+    .question-panel {
+      width: min(100%, 720px);
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      padding: clamp(24px, 5vw, 48px);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 24px;
+      background: rgba(255,252,246,.78);
+      box-shadow: 0 24px 70px rgba(128,83,58,.16), inset 0 1px rgba(255,255,255,.95);
+      backdrop-filter: blur(22px) saturate(135%);
+    }
+    .question-kicker {
+      margin: 0 0 10px;
+      color: #a65c42;
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .question-panel h2 {
+      margin: 0;
+      color: #24211f;
+      font-size: clamp(28px, 5vw, 40px);
+      letter-spacing: -.04em;
+      line-height: 1.12;
+    }
+    .question-intro {
+      margin: 12px 0 28px;
+      color: #625b54;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .question-group {
+      min-width: 0;
+      margin: 0 0 24px;
+      padding: 0;
+      border: 0;
+    }
+    .question-group legend {
+      margin-bottom: 11px;
+      color: #302a25;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .choice {
+      position: relative;
+      display: flex;
+      min-height: 54px;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid rgba(153,113,83,.2);
+      border-radius: 14px;
+      background: rgba(255,255,255,.48);
+      color: #3c3732;
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .choice:hover { transform: translateY(-1px); border-color: rgba(186,100,67,.48); }
+    .choice input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+    .choice:has(input:checked) {
+      border-color: #bd6a49;
+      background: rgba(255,239,226,.92);
+      box-shadow: 0 0 0 2px rgba(189,106,73,.12);
+    }
+    .choice:has(input:focus-visible) { outline: 3px solid rgba(189,106,73,.36); outline-offset: 2px; }
+    .choice-emoji { font-size: 19px; }
+    .question-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .question-actions .open-link { margin: 0; }
+    .question-back {
+      padding: 12px 0;
+      border: 0;
+      background: none;
+      color: #655d55;
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .question-back:hover { color: #a65338; }
+    .form-status {
+      min-height: 20px;
+      margin: 10px 0 0;
+      color: #765a4c;
+      font-size: 12px;
+      text-align: right;
+    }
+    .plan-result {
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid rgba(189,106,73,.2);
+      border-radius: 16px;
+      background: rgba(255,239,226,.72);
+      color: #3c3732;
+      line-height: 1.65;
+    }
+    .plan-result h3 { margin: 0 0 8px; color: #9c5239; }
+    .plan-result p { margin: 0; }
+    @media(max-width: 520px) {
+      .question-screen { padding: 14px; }
+      .question-panel { max-height: calc(100vh - 28px); border-radius: 18px; }
+      .choice-grid { grid-template-columns: 1fr; gap: 8px; }
+      .question-actions { align-items: stretch; flex-direction: column-reverse; }
+      .question-actions .open-link { margin-inline: auto; }
+      .question-back { align-self: center; }
     }
 
     /* ENVELOPE STAGE — anchored deep in bottom-right corner */
@@ -479,6 +617,7 @@
       transform: translateY(14px);
       transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
     }
+    .env-paper .sign + p { margin-top: 12px; }
     .envelope.opened .env-paper p:nth-of-type(1) {
       opacity: 1; transform: none; transition-delay: .82s;
     }
@@ -486,7 +625,7 @@
       opacity: 1; transform: none; transition-delay: .96s;
     }
     .envelope.opened .env-paper p:nth-of-type(3) {
-      opacity: 1; transform: none; transition-delay: 1.1s;
+      opacity: 1; transform: none; transition-delay: 1.42s;
     }
 
     .env-paper .sign {
@@ -504,6 +643,19 @@
       opacity: 1;
       transform: none;
       transition-delay: 1.24s;
+    }
+
+    .env-paper .letter-cta {
+      margin-top: 12px;
+      animation: none;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1);
+    }
+    .envelope.opened .env-paper .letter-cta {
+      opacity: 1;
+      transform: none;
+      transition-delay: 1.62s;
     }
 
     .sparkle-icon {
@@ -590,26 +742,172 @@
       }
       #ambientCanvas { display: none; }
     }
+
+    /* Sunrise glass direction, inspired by the supplied reference. */
+    :root {
+      --ink: #f5f1e8;
+      --paper: #fffaf1;
+      --paper-border: rgba(255,255,255,.82);
+      --gold: #cb704c;
+      --gold-glow: rgba(237, 143, 94, .24);
+      --muted: #726d68;
+      --rose: #b75d43;
+      --env-body: #f3b18d;
+      --env-flap: #f8c8a6;
+      --env-pocket: #e99b76;
+    }
+    html, body {
+      background:
+        radial-gradient(ellipse at 18% 30%, rgba(255,255,255,.96), transparent 43%),
+        radial-gradient(ellipse at 72% 48%, rgba(255,190,143,.74), transparent 48%),
+        linear-gradient(135deg, #f1e9dc 0%, #f9eee3 46%, #f5d7c1 100%);
+      color: #171817;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    #ambientCanvas { opacity: .22; }
+    .grain { opacity: .035; }
+    .topline {
+      color: rgba(43,40,37,.56);
+      letter-spacing: .16em;
+    }
+    .brand, .asterisk { color: #a85d43; }
+    .screen:after { border-color: rgba(255,255,255,.28); }
+    .cover-glow {
+      width: min(80vw, 760px);
+      height: min(80vw, 760px);
+      background: radial-gradient(circle, rgba(255,157,102,.4), rgba(255,204,166,.2) 40%, transparent 72%);
+      filter: blur(18px);
+    }
+    .eyebrow {
+      color: #96553f;
+      font-size: 11px;
+      letter-spacing: .22em;
+    }
+    h1 {
+      font-size: clamp(64px, 11vw, 112px);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 650;
+      letter-spacing: -.04em;
+      line-height: .92;
+      color: #171817;
+      text-shadow: 0 2px 24px rgba(255,255,255,.48);
+      text-wrap: balance;
+    }
+    .cover-sub {
+      font: 400 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #5d5954;
+      width: min(100%, 460px);
+      margin-inline: auto;
+      padding-inline: 12px;
+      text-wrap: balance;
+    }
+    .open-link {
+      margin-top: 46px;
+      color: #252321;
+      letter-spacing: .12em;
+      border: 1px solid rgba(255,255,255,.86);
+      border-radius: 999px;
+      padding: 15px 22px;
+      background: rgba(255,255,255,.38);
+      backdrop-filter: blur(18px) saturate(140%);
+      box-shadow: 0 10px 30px rgba(128,83,58,.09), inset 0 1px rgba(255,255,255,.8);
+    }
+    .open-link:before { display: none; }
+    .open-link:after { bottom: 8px; left: 26px; right: 26px; background: #c66e4b; }
+    .open-link:hover { color: #a34e35; transform: translateY(-2px); }
+    .arrow { color: #ad5d40; }
+    .corner { border-color: rgba(128,90,69,.25); }
+
+    .letter-screen {
+      background:
+        radial-gradient(ellipse at 80% 25%, rgba(255,178,130,.56), transparent 44%),
+        radial-gradient(ellipse at 20% 72%, rgba(255,255,255,.82), transparent 46%);
+    }
+    .envelope-stage { filter: drop-shadow(0 28px 45px rgba(122,75,48,.2)); }
+    .envelope {
+      filter: drop-shadow(0 22px 36px rgba(116,69,45,.22));
+      border-radius: 18px;
+    }
+    .envelope:hover:not(.opened) { filter: drop-shadow(0 26px 42px rgba(116,69,45,.26)); }
+    .env-back {
+      background: linear-gradient(145deg, rgba(255,224,200,.98), rgba(226,143,105,.96));
+      border: 1px solid rgba(255,255,255,.72);
+      border-radius: 18px;
+      box-shadow: inset 0 1px rgba(255,255,255,.75);
+    }
+    .env-flap {
+      background: linear-gradient(180deg, #f9cfad, #f0ad83);
+      border-color: rgba(255,255,255,.4);
+    }
+    .env-pocket:before, .env-pocket:after {
+      background: linear-gradient(135deg, #e89c75, #d88261);
+      filter: drop-shadow(0 -5px 10px rgba(133,73,47,.12));
+    }
+    .env-pocket:before, .env-pocket:after { background-image: none; }
+    .env-paper {
+      background: rgba(255,252,246,.95);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 14px;
+      box-shadow: 0 24px 55px rgba(104,67,46,.2), inset 0 1px #fff;
+      backdrop-filter: blur(20px) saturate(125%);
+    }
+    .envelope.opened .env-paper { z-index: 7; }
+    .env-paper:before { border-color: rgba(194,119,82,.18); border-radius: 8px; }
+    .seal:before {
+      background: radial-gradient(circle, rgba(236,139,98,.42), rgba(236,139,98,.14) 48%, transparent 74%);
+    }
+    .seal-half {
+      background: radial-gradient(circle at 35% 30%, #e48b68, #b85d45 68%, #974b3b);
+      border-color: rgba(255,235,214,.86);
+      box-shadow: 0 5px 14px rgba(114,60,43,.24), inset 0 1px 5px rgba(255,235,214,.42);
+    }
+    .seal-mark { color: #fff0db; text-shadow: 0 1px 3px rgba(105,52,37,.35); }
+    .sealhint { color: #675d55; }
+    .letter-kicker { color: #a65c42; letter-spacing: .2em; }
+    .env-paper h2 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 650;
+      color: #24211f;
+      letter-spacing: -.045em;
+    }
+    .env-paper h2 em { color: #ad5c42; }
+    .env-paper p { color: #554e48; }
+    .env-paper .sign { color: #302a25; }
+    .sparkle-icon { color: #bf6946; }
+    .back { color: #655d55; }
+    .back:hover { color: #a65338; }
+    .footnote { color: #76695e; }
+    .open-link:active, .back:active { transform: scale(.97); }
+
+    @media (prefers-reduced-transparency: reduce) {
+      .open-link, .env-paper { backdrop-filter: none; background: #fffaf1; }
+    }
+    @media (prefers-contrast: more) {
+      .open-link { background: #fffaf1; border-color: #6b3828; }
+      .cover-sub, .sealhint, .back { color: #382e29; }
+    }
+    @media(max-width: 640px) {
+      .cover { padding-inline: 20px; }
+      h1 { font-size: clamp(58px, 16vw, 92px); }
+      .cover-sub { font-size: 15px; }
+      .open-link { margin-top: 34px; }
+      .env-paper {
+        background: rgba(255,252,246,.98);
+        backdrop-filter: none;
+      }
+    }
   </style>
 </head>
 <body>
   <canvas id="ambientCanvas"></canvas>
   <div class="grain"></div>
 
-  <div class="topline">
-    <span class="brand">a little something</span>
-    <span>for your day <span class="asterisk">✳</span></span>
-  </div>
-
   <main>
     <section class="screen cover" id="cover">
       <div class="cover-glow"></div>
-      <i class="corner tl"></i>
-      <i class="corner br"></i>
       <div class="cover-inner">
-        <div class="eyebrow">A note for someone wonderful</div>
         <h1>Happy<br>Birthday</h1>
-        <div class="cover-sub">Today gets to be a little more magical.</div>
+        <div class="cover-sub">This is your special day and I wanted to make it a bit more special so I made this for you</div>
         <button class="open-link" id="open">Open your letter <span class="arrow">→</span></button>
       </div>
     </section>
@@ -621,11 +919,12 @@
           <div class="env-flap"></div>
           <div class="env-paper">
             <div class="letter-kicker">A birthday wish, just for you</div>
-            <h2>To my favorite<br><em>kind of person.</em></h2>
-            <p>Happy birthday to a truly lovely friend. I hope this next trip around the sun brings you the sort of joy that sneaks up on you: laughter that lasts too long, songs that feel like yours, and little moments you wish you could keep in your pocket.</p>
-            <p>You make ordinary days feel warmer just by being yourself. I’m really glad our paths crossed, and I hope today reminds you how much the people around you appreciate having you in their lives.</p>
-            <p>Here’s to more adventures, more ridiculous conversations, and a year that’s every bit as wonderful as you deserve.</p>
+            <h2>To my "favorite<br><em>kind of person."</em></h2>
+            <p>Happy birthday to someone who makes everything feel warmer and brighter. I hope this year brings you happiness, coolness and moments that remind you how loved you are. You deserve beautiful memories and the kind of happiness that stays.</p>
+            <p>I’m really glad our paths crossed, and I hope today reminds you how much the people around you appreciate having you in their lives.</p>
             <div class="sign">Have the loveliest birthday <span class="sparkle-icon">✨</span></div>
+            <p>Now I know we can't go anywhere. But, how about we just plan a hypothetical day out?</p>
+            <button class="open-link letter-cta" id="clickHere" type="button">Click here <span class="arrow">→</span></button>
           </div>
           <div class="env-pocket"></div>
           <div class="seal" aria-hidden="true">
@@ -636,7 +935,56 @@
         <div class="sealhint"><span>✳</span> Tap the seal to open</div>
       </div>
       <button class="back" id="back">← Back to the beginning</button>
-      <div class="footnote">MADE WITH A LITTLE EXTRA CARE</div>
+    </section>
+
+    <section class="letter-screen question-screen" id="questionScreen" aria-labelledby="questionTitle" aria-hidden="true">
+      <div class="question-panel">
+        <p class="question-kicker">Our hypothetical day out</p>
+        <h2 id="questionTitle" tabindex="-1">Let’s plan a lovely day</h2>
+        <p class="question-intro">Pick whatever sounds fun. There are no wrong answers—this is your special day!</p>
+        <form id="dayPlanForm">
+          <fieldset class="question-group">
+            <legend>Where would you like to go?</legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="radio" name="destination" value="a cozy movie night" required><span class="choice-emoji" aria-hidden="true">🎬</span><span>Movie night</span></label>
+              <label class="choice"><input type="radio" name="destination" value="a cute café and dessert"><span class="choice-emoji" aria-hidden="true">☕</span><span>Café and dessert</span></label>
+              <label class="choice"><input type="radio" name="destination" value="a bookstore and coffee"><span class="choice-emoji" aria-hidden="true">📚</span><span>Bookstore and coffee</span></label>
+              <label class="choice"><input type="radio" name="destination" value="a relaxed scenic walk"><span class="choice-emoji" aria-hidden="true">🌿</span><span>A scenic walk</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="question-group">
+            <legend>What treat should we have?</legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="radio" name="treat" value="pizza" required><span class="choice-emoji" aria-hidden="true">🍕</span><span>Pizza</span></label>
+              <label class="choice"><input type="radio" name="treat" value="something sweet"><span class="choice-emoji" aria-hidden="true">🍰</span><span>Something sweet</span></label>
+              <label class="choice"><input type="radio" name="treat" value="boba and a snack"><span class="choice-emoji" aria-hidden="true">🧋</span><span>Boba and a snack</span></label>
+              <label class="choice"><input type="radio" name="treat" value="a fun surprise"><span class="choice-emoji" aria-hidden="true">🎁</span><span>Surprise me</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="question-group">
+            <legend>What kind of day are you in the mood for?</legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="radio" name="mood" value="cozy and relaxed" required><span class="choice-emoji" aria-hidden="true">🧸</span><span>Cozy and relaxed</span></label>
+              <label class="choice"><input type="radio" name="mood" value="full of laughs"><span class="choice-emoji" aria-hidden="true">😄</span><span>Full of laughs</span></label>
+              <label class="choice"><input type="radio" name="mood" value="a little adventurous"><span class="choice-emoji" aria-hidden="true">✨</span><span>A little adventurous</span></label>
+              <label class="choice"><input type="radio" name="mood" value="slow and unplanned"><span class="choice-emoji" aria-hidden="true">🌸</span><span>Slow and unplanned</span></label>
+            </div>
+          </fieldset>
+          <div class="question-actions">
+            <button class="question-back" id="questionBack" type="button">← Back to your letter</button>
+            <button class="open-link" id="planSubmit" type="submit">Plan our day <span class="arrow">→</span></button>
+          </div>
+          <p class="form-status" id="formStatus" aria-live="polite"></p>
+        </form>
+        <div class="plan-result" id="planResult" hidden aria-live="polite">
+          <h3>That sounds like a perfect day ✨</h3>
+          <p id="planSummary"></p>
+          <div class="question-actions">
+            <button class="question-back" id="editPlan" type="button">← Change my answers</button>
+            <button class="open-link" id="planDone" type="button">Lovely <span class="arrow">♥</span></button>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -697,6 +1045,7 @@
     // Navigation and envelope interactions
     const cover = document.querySelector('#cover');
     const letterScreen = document.querySelector('#letterScreen');
+    const questionScreen = document.querySelector('#questionScreen');
     const envelope = document.querySelector('#envelope');
 
     function resetScroll() {
@@ -722,6 +1071,75 @@
         particles.push(p);
       }
     }
+
+    document.querySelector('#clickHere').addEventListener('click', (event) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+      createSparkles(rect.left + rect.width * 0.5, rect.top + rect.height * 0.5);
+      letterScreen.classList.remove('show');
+      questionScreen.classList.add('show');
+      questionScreen.setAttribute('aria-hidden', 'false');
+      document.querySelector('#questionTitle').focus({ preventScroll: true });
+    });
+
+    document.querySelector('#questionBack').addEventListener('click', () => {
+      questionScreen.classList.remove('show');
+      questionScreen.setAttribute('aria-hidden', 'true');
+      letterScreen.classList.add('show');
+    });
+
+    const dayPlanForm = document.querySelector('#dayPlanForm');
+    const planResult = document.querySelector('#planResult');
+    const formStatus = document.querySelector('#formStatus');
+    const planSubmit = document.querySelector('#planSubmit');
+    dayPlanForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (window.location.protocol === 'file:') {
+        formStatus.textContent = 'Please open the card through the app server before continuing.';
+        return;
+      }
+      const answers = new FormData(dayPlanForm);
+      const destination = answers.get('destination');
+      const treat = answers.get('treat');
+      const mood = answers.get('mood');
+      planSubmit.disabled = true;
+      formStatus.textContent = 'Putting your day together…';
+
+      try {
+        const response = await fetch('/api/send-plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            destination,
+            treat,
+            mood
+          })
+        });
+        const result = await response.json().catch(() => null);
+        if (!response.ok || !result || result.success !== true) {
+          throw new Error(result?.error || 'Could not complete that. Please try again.');
+        }
+
+        document.querySelector('#planSummary').textContent = `Your day: ${destination}, with ${treat}, and a ${mood} kind of vibe. I can’t wait!`;
+        formStatus.textContent = '';
+        dayPlanForm.hidden = true;
+        planResult.hidden = false;
+      } catch (error) {
+        formStatus.textContent = 'Something went wrong. Please try again.';
+      } finally {
+        planSubmit.disabled = false;
+      }
+    });
+
+    document.querySelector('#editPlan').addEventListener('click', () => {
+      planResult.hidden = true;
+      dayPlanForm.hidden = false;
+    });
+
+    document.querySelector('#planDone').addEventListener('click', () => {
+      questionScreen.classList.remove('show');
+      questionScreen.setAttribute('aria-hidden', 'true');
+      letterScreen.classList.add('show');
+    });
 
     function openEnvelope() {
       if (!envelope.classList.contains('opened')) {
