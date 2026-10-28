@@ -15,4 +15,14 @@ The day-plan answers are sent through Resend from a small Node server. The Resen
 
 5. Open [http://localhost:3000](http://localhost:3000).
 
-The default sender is Resend's test sender, `onboarding@resend.dev`, which can send only to the email address on your Resend account. Make sure that address matches `RESEND_TO`. For delivery to other addresses, verify a domain in Resend and set `RESEND_FROM` to an address on it. Configure the same environment variables on your hosting provider when deploying; a static-only host cannot run this email endpoint by itself.
+The default sender is Resend's test sender, `onboarding@resend.dev`, which can send only to the email address on your Resend account. The sample recipient is `cognitio56@gmail.com` to match the account reported by Resend. For delivery to another address, verify a domain in Resend and set `RESEND_FROM` to an address on it. Configure the same environment variables on your hosting provider when deploying; a static-only host cannot run this email endpoint by itself.
+
+## Deploy to Vercel
+
+This project includes `api/send-plan.mjs`, which Vercel deploys as a serverless function. Import the repository in Vercel and use the **Other** framework preset with no build command and the project root as the output directory. Add these environment variables in the Vercel project settings before deploying:
+
+- `RESEND_API_KEY`: your Resend sending key
+- `RESEND_TO`: `cognitio56@gmail.com` for the Resend test sender
+- `RESEND_FROM`: `Birthday Card <onboarding@resend.dev>`
+
+For a verified sender domain, change `RESEND_FROM` to an address at that domain. Vercel environment variables are configured in the project dashboard; do not upload `.env` or put the API key in `index.html`.

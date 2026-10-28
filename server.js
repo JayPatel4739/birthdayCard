@@ -28,7 +28,7 @@ function loadLocalEnv() {
 loadLocalEnv();
 
 const PORT = Number(process.env.PORT || 3000);
-const RECIPIENT = process.env.RESEND_TO || 'jay43184@gmail.com';
+const RECIPIENT = process.env.RESEND_TO || 'cognitio56@gmail.com';
 const SENDER = process.env.RESEND_FROM || 'Birthday Card <onboarding@resend.dev>';
 
 function sendJson(response, status, payload) {

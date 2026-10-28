@@ -793,6 +793,18 @@
       text-shadow: 0 2px 24px rgba(255,255,255,.48);
       text-wrap: balance;
     }
+    .cover-greeting {
+      width: min(100%, 520px);
+      margin: 0 auto 12px;
+      padding-inline: 12px;
+      color: #a65338;
+      font-size: clamp(16px, 2.2vw, 19px);
+      font-weight: 600;
+      line-height: 1.45;
+      text-align: center;
+      text-wrap: balance;
+      animation: fadeInUp 1.3s cubic-bezier(.16,1,.3,1) .38s both;
+    }
     .cover-sub {
       font: 400 17px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: #5d5954;
@@ -907,6 +919,7 @@
       <div class="cover-glow"></div>
       <div class="cover-inner">
         <h1>Happy<br>Birthday</h1>
+        <div class="cover-greeting">to one of my favourite people 🩷</div>
         <div class="cover-sub">This is your special day and I wanted to make it a bit more special so I made this for you</div>
         <button class="open-link" id="open">Open your letter <span class="arrow">→</span></button>
       </div>
