@@ -19,10 +19,12 @@ The default sender is Resend's test sender, `onboarding@resend.dev`, which can s
 
 ## Deploy to Vercel
 
-This project includes `api/send-plan.mjs`, which Vercel deploys as a serverless function. Import the repository in Vercel and use the **Other** framework preset with no build command and the project root as the output directory. Add these environment variables in the Vercel project settings before deploying:
+The card is a static site, and `api/send-plan.mjs` is deployed as a Vercel Function. `vercel.json` selects the **Other** preset and skips the build step. Connect the Git repository to Vercel with the project root as the Root Directory; leave the Output Directory blank. Vercel will serve `index.html`, `style.css`, and `script.js`, and expose the email endpoint at `/api/send-plan`.
+
+Add these environment variables in the Vercel project settings before deploying:
 
 - `RESEND_API_KEY`: your Resend sending key
 - `RESEND_TO`: `cognitio56@gmail.com` for the Resend test sender
 - `RESEND_FROM`: `Birthday Card <onboarding@resend.dev>`
 
-For a verified sender domain, change `RESEND_FROM` to an address at that domain. Vercel environment variables are configured in the project dashboard; do not upload `.env` or put the API key in `index.html`.
+For a verified sender domain, change `RESEND_FROM` to an address at that domain. After connecting the repository and adding the variables, pushes to the connected branch will trigger deployments. Vercel environment variables are configured in the project dashboard; do not upload `.env` or put the API key in browser files.

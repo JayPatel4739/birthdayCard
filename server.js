@@ -175,6 +175,21 @@ const server = http.createServer((request, response) => {
     return;
   }
 
+  const staticFiles = {
+    '/style.css': { file: 'style.css', type: 'text/css; charset=utf-8' },
+    '/script.js': { file: 'script.js', type: 'text/javascript; charset=utf-8' }
+  };
+  const staticFile = staticFiles[pathname];
+  if (request.method === 'GET' && staticFile) {
+    response.writeHead(200, {
+      'Content-Type': staticFile.type,
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff'
+    });
+    fs.createReadStream(path.join(ROOT, staticFile.file)).pipe(response);
+    return;
+  }
+
   sendJson(response, 404, { success: false, error: 'Not found.' });
 });
 
